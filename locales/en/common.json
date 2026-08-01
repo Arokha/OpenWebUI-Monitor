@@ -20,7 +20,6 @@
         "notSet": "Not Set",
         "enterValue": "Enter Value"
     },
-
     "auth": {
         "accessToken": "Access Token",
         "accessTokenPlaceholder": "Please enter access token",
@@ -33,7 +32,6 @@
         "invalidToken": "Invalid access token",
         "loginSuccess": "Token verification successful"
     },
-
     "header": {
         "menu": {
             "copyApiKey": "Copy API KEY",
@@ -63,7 +61,6 @@
             "en": "EN"
         }
     },
-
     "home": {
         "features": {
             "models": {
@@ -80,7 +77,6 @@
             }
         }
     },
-
     "models": {
         "title": "Model Management",
         "description": "Manage price configurations for all available models.",
@@ -96,6 +92,7 @@
         "noBaseModel": "This model has no base model",
         "baseModelNotFound": "Base model not found",
         "noDerivedModels": "No derived models found",
+        "derivedFrom": "Derived from {{baseModelId}}",
         "syncing": "Syncing",
         "syncTooltip": "Sync prices from base models to all derived models. This will update prices of all derived models based on their base model prices.",
         "testTooltip": "Click model icon to test individually, test results will be shown in the top right corner of the icon.",
@@ -139,7 +136,6 @@
         "testFailed": "Failed",
         "loading": "Loading model data..."
     },
-
     "users": {
         "title": "User Management",
         "description": "Manage user accounts and balances. You can view user details, adjust balances, or blacklist users.",
@@ -196,7 +192,6 @@
         },
         "loading": "Loading user data..."
     },
-
     "records": {
         "title": "Usage Records",
         "description": "View detailed model usage records for all users, including usage time, tokens consumed, and costs.",
@@ -213,7 +208,6 @@
             "balance": "Balance"
         }
     },
-
     "update": {
         "newVersion": "New Version Available",
         "currentVersion": "Current Version",
@@ -223,7 +217,6 @@
         "skipUpdate": "Skip Update",
         "goToUpdate": "Go to Update"
     },
-
     "backup": {
         "title": "Data Migration",
         "description": "Export or import database backups for migration and recovery",
@@ -240,7 +233,6 @@
             "error": "Import failed"
         }
     },
-
     "panel": {
         "header": "Usage Statistics Dashboard - OpenWebUI",
         "title": "Usage Statistics",

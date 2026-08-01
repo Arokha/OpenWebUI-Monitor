@@ -22,7 +22,7 @@ import { EditableCell } from '@/components/editable-cell'
 interface ModelResponse {
     id: string
     name: string
-    base_model_id: string
+    base_model_id: string | null
     system_prompt: string
     imageUrl: string
     input_price: number
@@ -33,7 +33,7 @@ interface ModelResponse {
 interface Model {
     id: string
     name: string
-    base_model_id: string
+    base_model_id: string | null
     system_prompt: string
     imageUrl: string
     input_price: number
@@ -551,6 +551,13 @@ export default function ModelsPage() {
                         <div className="text-xs text-gray-500 truncate opacity-60">
                             {record.id}
                         </div>
+                        {record.base_model_id && (
+                            <div className="text-xs text-gray-500 truncate opacity-60">
+                                {t('models.derivedFrom', {
+                                    baseModelId: record.base_model_id,
+                                })}
+                            </div>
+                        )}
                     </div>
                 </div>
             ),
