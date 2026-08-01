@@ -20,6 +20,7 @@
         "notSet": "No Establecido",
         "enterValue": "Ingrese Valor"
     },
+
     "auth": {
         "accessToken": "Token de Acceso",
         "accessTokenPlaceholder": "Por favor ingrese el token de acceso",
@@ -32,6 +33,7 @@
         "invalidToken": "Token de acceso inválido",
         "loginSuccess": "Verificación de token exitosa"
     },
+
     "header": {
         "menu": {
             "copyApiKey": "Copiar API KEY",
@@ -62,6 +64,7 @@
             "es": "ES"
         }
     },
+
     "home": {
         "features": {
             "models": {
@@ -78,6 +81,7 @@
             }
         }
     },
+
     "models": {
         "title": "Gestión de Modelos",
         "description": "Gestione las configuraciones de precios para todos los modelos disponibles.",
@@ -137,6 +141,7 @@
         "testFailed": "Fallido",
         "loading": "Cargando datos de modelos..."
     },
+
     "users": {
         "title": "Gestión de Usuarios",
         "description": "Gestione cuentas de usuario y saldos. Puede ver detalles de usuario, ajustar saldos o bloquear usuarios.",
@@ -193,6 +198,7 @@
         },
         "loading": "Cargando datos de usuarios..."
     },
+
     "records": {
         "title": "Registros de Uso",
         "description": "Vea registros detallados de uso de modelos para todos los usuarios, incluido el tiempo de uso, tokens consumidos y costos.",
@@ -209,6 +215,7 @@
             "balance": "Saldo"
         }
     },
+
     "update": {
         "newVersion": "Nueva Versión Disponible",
         "currentVersion": "Versión Actual",
@@ -218,6 +225,7 @@
         "skipUpdate": "Omitir Actualización",
         "goToUpdate": "Ir a Actualizar"
     },
+
     "backup": {
         "title": "Migración de Datos",
         "description": "Exporte o importe copias de seguridad de la base de datos para migración y recuperación",
@@ -234,6 +242,7 @@
             "error": "Error en la importación"
         }
     },
+
     "panel": {
         "header": "Panel de Estadísticas de Uso - OpenWebUI",
         "title": "Estadísticas de Uso",
