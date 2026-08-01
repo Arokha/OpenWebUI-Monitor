@@ -34,19 +34,10 @@ export async function POST(request: NextRequest) {
             }
 
             const derivedModel = derivedModelResult.rows[0]
-            let baseModelId = derivedModel.base_model_id
-
-            if (!baseModelId) {
-                const idParts = modelId.split('.')
-                if (idParts.length > 1) {
-                    baseModelId = idParts[idParts.length - 1]
-
-                    await client.query(
-                        `UPDATE model_prices SET base_model_id = $2 WHERE id = $1`,
-                        [modelId, baseModelId]
-                    )
-                }
-            }
+            // base_model_id is resolved and persisted when the model list is
+            // refreshed from Open WebUI; a null here means this model has no
+            // parent, so there is nothing to sync from.
+            const baseModelId = derivedModel.base_model_id
 
             if (!baseModelId) {
                 return NextResponse.json(

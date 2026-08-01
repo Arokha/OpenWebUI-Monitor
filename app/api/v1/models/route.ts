@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server'
 import { ensureTablesExist, getOrCreateModelPrices } from '@/lib/db/client'
 import { verifyApiToken } from '@/lib/auth'
+import { resolveBaseModelId } from '@/lib/utils/base-model'
 
 interface ModelInfo {
     id: string
-    base_model_id: string
+    base_model_id: string | null
     name: string
     params: {
         system: string
@@ -66,11 +67,29 @@ export async function GET(req: Request) {
             throw new Error('Unexpected API response structure')
         }
 
-        const apiModelsMap = new Map()
+        // Resolve each model's parent once, against the full set of ids Open
+        // WebUI reported, and reuse that result for both persistence and the
+        // response so the two can never disagree.
+        const knownModelIds = new Set(data.data.map((item) => String(item.id)))
+
+        const apiModelsMap = new Map<
+            string,
+            {
+                name: string
+                base_model_id: string | null
+                imageUrl: string
+                system_prompt: string
+            }
+        >()
         data.data.forEach((item) => {
-            apiModelsMap.set(String(item.id), {
+            const id = String(item.id)
+            apiModelsMap.set(id, {
                 name: String(item.name),
-                base_model_id: item.info?.base_model_id || '',
+                base_model_id: resolveBaseModelId(
+                    id,
+                    item.info?.base_model_id,
+                    knownModelIds
+                ),
                 imageUrl:
                     item.info?.meta?.profile_image_url || '/static/favicon.png',
                 system_prompt: item.info?.params?.system || '',
@@ -78,22 +97,11 @@ export async function GET(req: Request) {
         })
 
         const modelsWithPrices = await getOrCreateModelPrices(
-            data.data.map((item) => {
-                let baseModelId = item.info?.base_model_id
-
-                if (!baseModelId && item.id) {
-                    const idParts = String(item.id).split('.')
-                    if (idParts.length > 1) {
-                        baseModelId = idParts[idParts.length - 1]
-                    }
-                }
-
-                return {
-                    id: String(item.id),
-                    name: String(item.name),
-                    base_model_id: baseModelId,
-                }
-            })
+            Array.from(apiModelsMap.entries()).map(([id, apiModel]) => ({
+                id,
+                name: apiModel.name,
+                base_model_id: apiModel.base_model_id,
+            }))
         )
 
         const dbModelsMap = new Map()
@@ -115,17 +123,9 @@ export async function GET(req: Request) {
                     updated_at: new Date(),
                 }
 
-                let baseModelId = apiModel.base_model_id
-                if (!baseModelId && id) {
-                    const idParts = String(id).split('.')
-                    if (idParts.length > 1) {
-                        baseModelId = idParts[idParts.length - 1]
-                    }
-                }
-
                 return {
                     id: id,
-                    base_model_id: baseModelId,
+                    base_model_id: apiModel.base_model_id,
                     name: apiModel.name,
                     imageUrl: apiModel.imageUrl,
                     system_prompt: apiModel.system_prompt,

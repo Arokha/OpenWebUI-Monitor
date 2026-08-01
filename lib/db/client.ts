@@ -310,7 +310,7 @@ export interface UserUsageRecord {
 }
 
 export async function getOrCreateModelPrices(
-    models: Array<{ id: string; name: string; base_model_id?: string }>
+    models: Array<{ id: string; name: string; base_model_id?: string | null }>
 ): Promise<ModelPrice[]> {
     try {
         const defaultInputPrice = parseFloat(
@@ -350,10 +350,10 @@ export async function getOrCreateModelPrices(
 
         if (modelsToUpdate.length > 0) {
             for (const model of modelsToUpdate) {
-                await query(`UPDATE model_prices SET name = $2 WHERE id = $1`, [
-                    model.id,
-                    model.name,
-                ])
+                await query(
+                    `UPDATE model_prices SET name = $2, base_model_id = $3 WHERE id = $1`,
+                    [model.id, model.name, model.base_model_id ?? null]
+                )
             }
         }
 
@@ -364,12 +364,13 @@ export async function getOrCreateModelPrices(
                     : null
 
                 await query(
-                    `INSERT INTO model_prices (id, name, input_price, output_price, per_msg_price)
-           VALUES ($1, $2, $3, $4, $5)
+                    `INSERT INTO model_prices (id, name, base_model_id, input_price, output_price, per_msg_price)
+           VALUES ($1, $2, $3, $4, $5, $6)
            RETURNING *`,
                     [
                         model.id,
                         model.name,
+                        model.base_model_id ?? null,
                         baseModel?.input_price ?? defaultInputPrice,
                         baseModel?.output_price ?? defaultOutputPrice,
                         baseModel?.per_msg_price ?? defaultPerMsgPrice,
